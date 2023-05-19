@@ -1,4 +1,4 @@
-module Goshh-Server
+module github.com/5ur/Goshh-Server
 
 go 1.20
 
