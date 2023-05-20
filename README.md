@@ -5,7 +5,7 @@
 <br />
 <div align="center">
   <a href="Placeholder">
-    <img src="https://github.com/5ur/Goshh/blob/main/logos/server_logo.png" alt="Logo" width="60%" height="60%">
+    <img src="https://github.com/5ur/Goshh/blob/main/logos/server_logo.png" alt="Logo" width="40%" height="40%">
   </a>
 
 <p align="center">
