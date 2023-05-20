@@ -384,6 +384,15 @@ http://sisyphus.local:5150/message/goshh-server
 Another message
 
 ❯ 
+
+# There is user input verification for the rune as well:
+❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Test","rune": "@@#_(*^&@# *@#_%)*(@&#%)@#& @#N%V@#N &%*@#& %*)@#&%_@)#(*&%*(@#&%_)(@*#&^%@#%)(@*#%1"}'
+http://local:5150/message/__NVN__1
+
+❯ curl http://sisyphus.local:5150/message/__NVN__1
+Test
+
+❯
 ```
 Sending a file:  
 ```Shell
@@ -406,16 +415,70 @@ testfile.md.1                                  [ <=>                            
 
 ❯ 
 
-# There is user input verification for the rune as well:
-❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Test","rune": "@@#_(*^&@# *@#_%)*(@&#%)@#& @#N%V@#N &%*@#& %*)@#&%_@)#(*&%*(@#&%_)(@*#&^%@#%)(@*#%1"}'
-http://local:5150/message/__NVN__1
-
-❯ curl http://sisyphus.local:5150/message/__NVN__1
-Test
-
-❯
 ```
 ## iwr/irm
+iwr:  
+```Powershell
+# Basic message:
+$uri = "http://sisyphus.local:5150/message"
+$headers = @{
+    "Content-Type" = "application/json"
+}
+$body = @{
+    message = "A message."
+} | ConvertTo-Json
+
+$response = Invoke-WebRequest -Uri $uri -Method POST -Headers $headers -Body $body
+```
+
+irm:  
+```Powershell
+$uri = "http://sisyphus.local:5150/message"
+$headers = @{
+    "Content-Type" = "application/json"
+}
+$body = @{
+    message = "A message."
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri $uri -Method POST -Headers $headers -Body $body
+```
+
+With rune:  
+```Powerhsell
+$uri = 'http://sisyphus.local:5150/message'
+$headers = @{
+    'Content-Type' = 'application/json'
+}
+$message = 'Another message'
+$rune = 'goshh-server'
+$body = @{
+    'message' = $message
+    'rune' = $rune
+} | ConvertTo-Json
+
+# Using Invoke-WebRequest (iwr)
+$response = Invoke-WebRequest -Uri $uri -Method POST -Headers $headers -Body $body
+
+# Using Invoke-RestMethod (irm)
+$response = Invoke-RestMethod -Uri $uri -Method POST -Headers $headers -Body $body
+```
+
+Sending a file:  
+iwr:  
+```Powershell
+$file = Get-Item -Path "C:\path\to\testfile.md"
+$url = "http://sisyphus.local:5150/upload"
+
+Invoke-WebRequest -Uri $url -Method POST -InFile $file -ContentType "multipart/form-data"
+```
+irm:  
+```Powershell
+$file = Get-Item -Path "C:\path\to\testfile.md"
+$url = "http://sisyphus.local:5150/upload"
+
+Invoke-RestMethod -Uri $url -Method POST -InFile $file -ContentType "multipart/form-data"
+```
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: logo/logo.png
