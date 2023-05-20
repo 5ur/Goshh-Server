@@ -1,14 +1,27 @@
-debugMode: true
+# Gin debug mode:
+debugMode: false
+# Port for the engine:
 serverPort: 5150
-useDefault: true
+# Use default gin router (if false new is created):
+useDefault: false
+# Trusted proxy slice/array
 trustedProxies:
+  # Local host only:
   - 127.0.0.1
+  # Some RFC 1918 range:
+  # - 10.0.0.0/8
+# Time in which the slice of messages will be dumped
 cleanupInterval: "10s"
-allowLocalNetworkAccess: true
+# This achieves the same as adding all 1918 ranges in trustedProxies, just more convenient
+allowLocalNetworkAccess: false
+# You understand what this does with no context needed
 allowedFileTypes:
   - txt
   - md
   - jpg
+# You understand what this does with no context needed
 fileSavePath: "tmp/"
+# Time after which a stale file will be deleted (ie; not downloaded at all, not downloaded enough times to reach the allowedFileDownloadCount limit)
 staleFileTTL: "30s"
-allowedFileDownloadCount: 2
+# The amount of times a file is allowed to be downloaded (kept in check by the file struct values)
+allowedFileDownloadCount: 1 
