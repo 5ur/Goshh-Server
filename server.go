@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strings"
 	"sync"
 	"time"
 
@@ -55,6 +57,18 @@ Reason, being that runes and random strings added symbols, which broke url patte
 */
 func generateRandomID() string {
 	return time.Now().Format("20060102150405")
+}
+
+/*
+This function is used to normalize a supplied rune, mainly so it doesn't break the returned URL.
+*/
+func normalizeRune(rune string) string {
+	// Remove non-alphanumeric characters using regex pattern
+	reg := regexp.MustCompile(`[^\w\d]+`)
+	normalizedRune := reg.ReplaceAllString(rune, "")
+	// Remove leading and trailing whitespace
+	normalizedRune = strings.TrimSpace(normalizedRune)
+	return normalizedRune
 }
 
 /*
@@ -233,14 +247,15 @@ func main() {
 		if request.Rune == "" {
 			id = generateRandomID()
 		} else {
-			id = request.Rune
+			id = normalizeRune(request.Rune)
 		}
 		// Lock then unlock the messages map on individual creation/posts
 		mu.Lock()
 		messages[id] = Message{
 			CreatedAt: time.Now(),
 			Contents:  []byte(request.Message),
-			Rune:      string(request.Rune),
+			// Normalize the "Rune" input
+			Rune: string(normalizeRune(request.Rune)),
 		}
 		mu.Unlock()
 		// Return the URL as the response body

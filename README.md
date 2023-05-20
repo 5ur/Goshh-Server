@@ -405,6 +405,15 @@ testfile.md.1                                  [ <=>                            
 2023-05-20 10:22:03 (0.00 B/s) - 'testfile.md.1' saved [0/0]
 
 ❯ 
+
+# There is user input verification for the rune as well:
+❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Test","rune": "@@#_(*^&@# *@#_%)*(@&#%)@#& @#N%V@#N &%*@#& %*)@#&%_@)#(*&%*(@#&%_)(@*#&^%@#%)(@*#%1"}'
+http://local:5150/message/__NVN__1
+
+❯ curl http://sisyphus.local:5150/message/__NVN__1
+Test
+
+❯
 ```
 ## iwr/irm
 
