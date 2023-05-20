@@ -280,11 +280,89 @@ StandardError=file:/var/log/goshh-server.log
 WantedBy=default.target
 ```
 
+Reload the daemon:  
+`systemctl daemon-reload`
+
 Enable and start:
 ```Shell
 systemctl enable goshh-server
 systemctl start goshh-server
 ```
+**SystemV init script:**
+Create a new user for the service:
+```Bash
+useradd -m -d /home/gohh -s /bin/bash gohh
+
+# Lock the user, you won't be using it for anything. Besides you can just su to it.
+passwd -l gohh
+```
+Create the init script:
+`vim /etc/init.d/goshh-server`
+And place in something like this:  
+See:  
+https://manpages.debian.org/testing/sysvinit-utils/init-d-script.5.en.html
+https://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html
+```Shell
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          Goshh-Server
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop Goshh-Server
+### END INIT INFO
+
+NAME="Goshh-Server"
+USER="gohh"
+PATH="/home/goshh/"
+CMD="/home/goshh/Goshh-Server"
+LOG_FILE="/var/log/goshh-server.log"
+LOG_LINES=11
+
+case "$1" in
+  start)
+    echo "Starting $NAME"
+    start-stop-daemon --start --chuid "$USER" --chdir "$PATH" --background --make-pidfile --pidfile /var/run/$NAME.pid --startas /bin/bash -- -c "exec $CMD >> $LOG_FILE 2>&1"
+    ;;
+  stop)
+    echo "Stopping $NAME"
+    start-stop-daemon --stop --pidfile /var/run/$NAME.pid --retry=TERM/5/KILL/10 >/dev/null
+    ;;
+  restart)
+    echo "Restarting $NAME"
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  status)
+    echo "Checking $NAME status"
+    if [ -e /var/run/$NAME.pid ]; then
+      echo "$NAME is running"
+      echo "Last $LOG_LINES lines of the log file:"
+      tail -$LOG_LINES $LOG_FILE
+      exit 0
+    else
+      echo "$NAME is not running"
+      exit 1
+    fi
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+
+exit 0
+```
+Make the script executable:  
+`chmod +x /etc/init.d/goshh-server`
+Make the service startup automatically:  
+```Shell
+update-rc.d Goshh-Server defaults
+```
+Reload SysV:  
+`init q`
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
