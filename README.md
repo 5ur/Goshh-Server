@@ -288,7 +288,7 @@ Enable and start:
 systemctl enable goshh-server
 systemctl start goshh-server
 ```
-**SystemV init script:**
+**SysV init script:**  
 Create a new user for the service:
 ```Bash
 useradd -m -d /home/gohh -s /bin/bash gohh
