@@ -300,8 +300,8 @@ Create the init script:
 `vim /etc/init.d/goshh-server`
 And place in something like this:  
 See:  
-https://manpages.debian.org/testing/sysvinit-utils/init-d-script.5.en.html
-https://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html
+https://manpages.debian.org/testing/sysvinit-utils/init-d-script.5.en.html  
+https://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-service.html  
 ```Shell
 #!/bin/sh
 ### BEGIN INIT INFO
