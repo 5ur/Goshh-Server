@@ -364,7 +364,48 @@ Reload SysV:
 
 # Examples
 ## curl
+Most basic:  
+```Shell
+❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "A message."}'
+http://sisyphus.local:5150/message/20230520094532
 
+❯ curl http://sisyphus.local:5150/message/20230520094532
+A message.
+
+❯
+```
+
+With a custom rune:  
+```Shell
+❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Another message","rune": "goshh-server"}'
+http://sisyphus.local:5150/message/goshh-server
+
+❯ curl http://sisyphus.local:5150/message/goshh-server
+Another message
+
+❯ 
+```
+Sending a file:  
+```Shell
+❯ touch testfile.md
+
+❯ curl -X POST -F "file=@testfile.md" -H "Content-Type: multipart/form-data" http://sisyphus.local:5150/upload
+http://sisyphus.local:5150/download/testfile.md
+
+❯ wget http://sisyphus.local:5150/download/testfile.md
+--2023-05-20 10:22:03--  http://sisyphus.local:5150/download/testfile.md
+Resolving sisyphus.local (sisyphus.local)... fe80::f4ac:8f:b906:8250, 192.168.100.7
+Connecting to sisyphus.local (sisyphus.local)|fe80::f4ac:8f:b906:8250|:5150... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 0 [application/octet-stream]
+Saving to: 'testfile.md.1'
+
+testfile.md.1                                  [ <=>                                                                                     ]       0  --.-KB/s    in 0s      
+
+2023-05-20 10:22:03 (0.00 B/s) - 'testfile.md.1' saved [0/0]
+
+❯ 
+```
 ## iwr/irm
 
 <!-- MARKDOWN LINKS & IMAGES -->
