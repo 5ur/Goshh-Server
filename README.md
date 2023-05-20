@@ -30,10 +30,10 @@
 
 # Installation
 ## Windows
-Start by installing Go:
+Start by installing Go:  
 You can download and install Go from: https://go.dev/dl/
 
-Or you and use a package manager:
+Or you and use a package manager:  
 *Scoop*: https://scoop.sh/
 ```Powershell
 irm get.scoop.sh | iex
