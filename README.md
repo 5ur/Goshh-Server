@@ -215,6 +215,51 @@ eg:
  allowLocalNetworkAccess=false
 ```
 
+## Nginx + SSL(LE)
+
+Install Certbot:  
+```Shell
+apt install certbot -y
+```
+Generate Let's Encrypt Certificate:  
+```shell
+certbot certonly --standalone -d your_domain_name_here.com
+```
+
+Create a new nginx site:  
+`vim /etc/nginx/sites-available/goshh-server`
+```nginx
+server {
+    listen 80;
+    server_name your_domain_name_here.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name your_domain_name_here.com;
+
+    ssl_certificate /etc/letsencrypt/live/your_domain_name_here.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/your_domain_name_here.com/privkey.pem;
+
+    location / {
+        proxy_pass http://serverhost.local:5150;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+}
+```
+Add a link:  
+`ln -s /etc/nginx/sites-available/goshh-server /etc/nginx/sites-enables/goshh-server`
+
+Reload nginx, so it will take the new config:  
+```shell
+nginx -t && systemctl reload nginx
+```
+
 # Usage
 ## Standalone:
 ### Windows:
@@ -403,10 +448,10 @@ Reload SysV:
 ## curl
 Most basic:  
 ```Shell
-❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "A message."}'
-http://sisyphus.local:5150/message/20230520094532
+❯ curl -X POST http://serverhost.local:5150/message -H 'Content-Type: application/json' -d '{"message": "A message."}'
+http://serverhost.local:5150/message/20230520094532
 
-❯ curl http://sisyphus.local:5150/message/20230520094532
+❯ curl http://serverhost.local:5150/message/20230520094532
 A message.
 
 ❯
@@ -414,19 +459,19 @@ A message.
 
 With a custom rune:  
 ```Shell
-❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Another message","rune": "goshh-server"}'
-http://sisyphus.local:5150/message/goshh-server
+❯ curl -X POST http://serverhost.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Another message","rune": "goshh-server"}'
+http://serverhost.local:5150/message/goshh-server
 
-❯ curl http://sisyphus.local:5150/message/goshh-server
+❯ curl http://serverhost.local:5150/message/goshh-server
 Another message
 
 ❯ 
 
 # There is user input verification for the rune as well:
-❯ curl -X POST http://sisyphus.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Test","rune": "@@#_(*^&@# *@#_%)*(@&#%)@#& @#N%V@#N &%*@#& %*)@#&%_@)#(*&%*(@#&%_)(@*#&^%@#%)(@*#%1"}'
+❯ curl -X POST http://serverhost.local:5150/message -H 'Content-Type: application/json' -d '{"message": "Test","rune": "@@#_(*^&@# *@#_%)*(@&#%)@#& @#N%V@#N &%*@#& %*)@#&%_@)#(*&%*(@#&%_)(@*#&^%@#%)(@*#%1"}'
 http://local:5150/message/__NVN__1
 
-❯ curl http://sisyphus.local:5150/message/__NVN__1
+❯ curl http://serverhost.local:5150/message/__NVN__1
 Test
 
 ❯
@@ -435,13 +480,13 @@ Sending a file:
 ```Shell
 ❯ touch testfile.md
 
-❯ curl -X POST -F "file=@testfile.md" -H "Content-Type: multipart/form-data" http://sisyphus.local:5150/upload
-http://sisyphus.local:5150/download/testfile.md
+❯ curl -X POST -F "file=@testfile.md" -H "Content-Type: multipart/form-data" http://serverhost.local:5150/upload
+http://serverhost.local:5150/download/testfile.md
 
-❯ wget http://sisyphus.local:5150/download/testfile.md
---2023-05-20 10:22:03--  http://sisyphus.local:5150/download/testfile.md
-Resolving sisyphus.local (sisyphus.local)... fe80::f4ac:8f:b906:8250, 192.168.100.7
-Connecting to sisyphus.local (sisyphus.local)|fe80::f4ac:8f:b906:8250|:5150... connected.
+❯ wget http://serverhost.local:5150/download/testfile.md
+--2023-05-20 10:22:03--  http://serverhost.local:5150/download/testfile.md
+Resolving serverhost.local (serverhost.local)... fe80::f4ac:8f:b906:8250, 192.168.100.7
+Connecting to serverhost.local (serverhost.local)|fe80::f4ac:8f:b906:8250|:5150... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 0 [application/octet-stream]
 Saving to: 'testfile.md.1'
@@ -457,7 +502,7 @@ testfile.md.1                                  [ <=>                            
 iwr:  
 Basic message:  
 ```Powershell
-$uri = "http://sisyphus.local:5150/message"
+$uri = "http://serverhost.local:5150/message"
 $headers = @{
     "Content-Type" = "application/json"
 }
@@ -470,7 +515,7 @@ $response = Invoke-WebRequest -Uri $uri -Method POST -Headers $headers -Body $bo
 
 irm:  
 ```Powershell
-$uri = "http://sisyphus.local:5150/message"
+$uri = "http://serverhost.local:5150/message"
 $headers = @{
     "Content-Type" = "application/json"
 }
@@ -483,7 +528,7 @@ $response = Invoke-RestMethod -Uri $uri -Method POST -Headers $headers -Body $bo
 
 With rune:  
 ```Powerhsell
-$uri = 'http://sisyphus.local:5150/message'
+$uri = 'http://serverhost.local:5150/message'
 $headers = @{
     'Content-Type' = 'application/json'
 }
@@ -505,14 +550,14 @@ Sending a file:
 iwr:  
 ```Powershell
 $file = Get-Item -Path "C:\path\to\testfile.md"
-$url = "http://sisyphus.local:5150/upload"
+$url = "http://serverhost.local:5150/upload"
 
 Invoke-WebRequest -Uri $url -Method POST -InFile $file -ContentType "multipart/form-data"
 ```
 irm:  
 ```Powershell
 $file = Get-Item -Path "C:\path\to\testfile.md"
-$url = "http://sisyphus.local:5150/upload"
+$url = "http://serverhost.local:5150/upload"
 
 Invoke-RestMethod -Uri $url -Method POST -InFile $file -ContentType "multipart/form-data"
 ```
