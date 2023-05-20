@@ -30,28 +30,46 @@
 [![Go][Go]][Go-url] [![Powershell][Powershell]][Powershell-url] [![Vim][Vim]][Vim-url] [![Exchange][StackExchange]][StackExchange-url] [![Overflow][StackOverflow]][StackOverflow-url] [![Windows][Windows]][Windows-url]
 
 # Prerequisites
-Minimum version of go required is 1.16  
+**Minimum version of go required is 1.16  **
 ## Windows
 Start by installing Go:  
 You can download and install Go from: https://go.dev/dl/
 
 Or you and use a package manager:  
-*Scoop*: https://scoop.sh/
+**Scoop**: https://scoop.sh/
 ```Powershell
 irm get.scoop.sh | iex
 scoop bucket add main
 scoop install main/go
 ```
-*Winget*
+**Winget**
 ```Powershell
 winget install -e --id GoLang.Go
 ```
 
+## Linux
+**apt**
+```Shell
+apt install golang -y
+```
 
+You can also manually install the bin (eg; apt ins installing an older version of go <1.16): https://go.dev/dl/  
 
+```Shell
+wget https://go.dev/dl/go1.20.4.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.20.4.linux-amd64.tar.gz
 
+```
 
-
+Depending on your distro you might have one of these two files:  
+`vim /etc/profile` or `/etc/bash.bashrc`  
+You can add the the Go bins to path in one of those or both to make the binary available for all users:  
+```Shell
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+```
+You can also just add the above to a specific user's bashrc or profile.  
 
 
 
