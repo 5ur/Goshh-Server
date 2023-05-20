@@ -356,13 +356,11 @@ esac
 exit 0
 ```
 Make the script executable:  
-`chmod +x /etc/init.d/goshh-server`
+`chmod +x /etc/init.d/goshh-server`  
 Make the service startup automatically:  
-```Shell
-update-rc.d Goshh-Server defaults
-```
+`update-rc.d Goshh-Server defaults`  
 Reload SysV:  
-`init q`
+`init q`  
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
