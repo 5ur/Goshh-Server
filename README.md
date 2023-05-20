@@ -19,16 +19,18 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#Installation">Installation</a></li>
-    <li><a href="#Usage">Usage</a></li>
-    <li><a href="#Examples">Examples</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#examples">Examples</a></li>
   </ol>
 </details>
 
 ### Built With
 [![Go][Go]][Go-url] [![Powershell][Powershell]][Powershell-url] [![Vim][Vim]][Vim-url] [![Exchange][StackExchange]][StackExchange-url] [![Overflow][StackOverflow]][StackOverflow-url] [![Windows][Windows]][Windows-url]
 
-# Installation
+# Prerequisites
+Minimum version of go required is 1.16  
 ## Windows
 Start by installing Go:  
 You can download and install Go from: https://go.dev/dl/
