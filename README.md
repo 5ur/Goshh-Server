@@ -519,7 +519,8 @@ Invoke-RestMethod -Uri $url -Method POST -InFile $file -ContentType "multipart/f
 
 # Recommendation
 I spent a shit ton of time adding comments to the source-code. You can completely rebuild anything just by reading the comments, and you should, because this is the way that I made it for myself.  
-I urge you to have a look at the supplementary tool I made [Goshh-Client](https://github.com/5ur/Goshh-Client)  
+
+I urge you to have a look at the supplementary tool I made - [Goshh-Client](https://github.com/5ur/Goshh-Client)  
 It's purpose it to make this a bit better, since it features options like QR code generation, off/online usage, pipeline input translation, etc..
 <img src="https://github.com/5ur/Goshh/blob/main/logos/client_logo.png" alt="Logo" width="20%" height="20%">
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
