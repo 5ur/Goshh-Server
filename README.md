@@ -480,6 +480,10 @@ $url = "http://sisyphus.local:5150/upload"
 Invoke-RestMethod -Uri $url -Method POST -InFile $file -ContentType "multipart/form-data"
 ```
 
+# Recommendation
+I urge you to have a look at the supplementary tool I made [Goshh-Client](https://github.com/5ur/Goshh-Client)  
+It's purpose it to make this a bit better, since it features options like QR code generation, off/online usage, pipeline input translation, etc..
+
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: logo/logo.png
 [Go]: https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white
