@@ -362,6 +362,10 @@ Make the service startup automatically:
 Reload SysV:  
 `init q`  
 
+# Examples
+## curl
+
+## iwr/irm
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: logo/logo.png
