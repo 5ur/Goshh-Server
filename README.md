@@ -53,7 +53,7 @@ winget install -e --id GoLang.Go
 apt install golang -y
 ```
 
-You can also manually install the bin (eg; apt ins installing an older version of go <1.16): https://go.dev/dl/  
+You can also manually install the bin (eg; apt ins installing an older version of go lesser than 1.16): https://go.dev/dl/  
 
 ```Shell
 wget https://go.dev/dl/go1.20.4.linux-amd64.tar.gz
@@ -69,13 +69,114 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 ```
-You can also just add the above to a specific user's bashrc or profile.  
+You can also just add the above to a specif user's bashrc or profile.  
 
 # Installation
+## Windows
+1. Clone the repository:
+   ```Powershell
+   git clone https://github.com/5ur/Goshh-Server.git
+   cd .\Goshh-Server\   
+   ```
+2. Download the external go packages
+   ```Powershell
+   # If need be (eg; you use a newer/older version of go, delete the go.mod file and create your own):
+   go mod init Goshh-Server
+   go get .
+   go mod tidy
+   ```
+3. Build the binary
+   ```Powershell
+   go build .
+   ```
+4. Create your config file
+  ```Powershell
+  mv config.yaml.example config.yaml
+  vim config.yaml
+  ```
+  Example config file:
+  ```YAML
+  # Gin debug mode:
+  debugMode: true
+  # Port for the engine:
+  serverPort: 5150
+  # Use default gin router (if false new is created):
+  useDefault: true
+  # Trusted proxy slice/array
+  trustedProxies:
+    # Local host only:
+    - 127.0.0.1
+    # Some RFC 1918 range:
+    - 10.0.0.0/8
+  # Time in which the slice of messages will be dumped
+  cleanupInterval: "10s"
+  # This achieves the same as adding all 1918 ranges in trustedProxies, just more convenient
+  allowLocalNetworkAccess: true
+  # You understand what this does with no context needed
+  allowedFileTypes:
+    - txt
+    - md
+    - jpg
+  # You understand what this does with no context needed
+  fileSavePath: "tmp/"
+  # Time after which a stale file will be deleted (ie; not downloaded at all, not downloaded enough times to reach the allowedFileDownloadCount limit)
+  staleFileTTL: "30s"
+  # The amount of times a file is allowed to be downloaded (kept in check by the file struct values)
+  allowedFileDownloadCount: 1 
+  ```
+5. That's it
 
+## Linux
+1. Clone the repository:
+```Shell
+git clone https://github.com/5ur/Goshh-Server.git
+cd Goshh-Server/
+```
+2. Build in the same way
+```Shell
+# If need be (eg; missing go.mod or you have a different go version)
+go mod init Gosh-Server
+go mod tidy
 
-
-
+# Finally:
+go build .
+```
+3. Create your config file
+```Shell
+mv config.yaml.example config.yaml
+vim config.yaml
+```
+Example config file:
+```YAML
+# Gin debug mode:
+debugMode: true
+# Port for the engine:
+serverPort: 5150
+# Use default gin router (if false new is created):
+useDefault: true
+# Trusted proxy slice/array
+trustedProxies:
+  # Local host only:
+  - 127.0.0.1
+  # Some RFC 1918 range:
+  - 10.0.0.0/8
+# Time in which the slice of messages will be dumped
+cleanupInterval: "10s"
+# This achieves the same as adding all 1918 ranges in trustedProxies, just more convenient
+allowLocalNetworkAccess: true
+# You understand what this does with no context needed
+allowedFileTypes:
+  - txt
+  - md
+  - jpg
+# You understand what this does with no context needed
+fileSavePath: "tmp/"
+# Time after which a stale file will be deleted (ie; not downloaded at all, not downloaded enough times to reach the allowedFileDownloadCount limit)
+staleFileTTL: "30s"
+# The amount of times a file is allowed to be downloaded (kept in check by the file struct values)
+allowedFileDownloadCount: 1 
+```
+4. That's it.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: logo/logo.png
