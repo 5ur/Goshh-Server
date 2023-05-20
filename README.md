@@ -21,13 +21,29 @@
   <ol>
     <li><a href="#Installation">Installation</a></li>
     <li><a href="#Usage">Usage</a></li>
+    <li><a href="#Examples">Examples</a></li>
   </ol>
 </details>
-
 
 ### Built With
 [![Go][Go]][Go-url] [![Powershell][Powershell]][Powershell-url] [![Vim][Vim]][Vim-url] [![Exchange][StackExchange]][StackExchange-url] [![Overflow][StackOverflow]][StackOverflow-url] [![Windows][Windows]][Windows-url]
 
+# Installation
+## Windows
+Start by installing Go:
+You can download and install Go from: https://go.dev/dl/
+
+Or you and use a package manager:
+*Scoop*: https://scoop.sh/
+```Powershell
+irm get.scoop.sh | iex
+scoop bucket add main
+scoop install main/go
+```
+*Winget*
+```Powershell
+winget install -e --id GoLang.Go
+```
 
 
 
