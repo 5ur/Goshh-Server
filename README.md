@@ -71,7 +71,7 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 ```
 You can also just add the above to a specific user's bashrc or profile.  
 
-
+# Installation
 
 
 
