@@ -6,6 +6,7 @@ trustedProxies:
 cleanupInterval: "10s"
 allowLocalNetworkAccess: true
 allowedFileTypes:
+  - zip
   - txt
   - md
   - jpg
