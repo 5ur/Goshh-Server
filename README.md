@@ -335,10 +335,10 @@ Unless it's changed in the future, the service will be created with no additiona
 **Systemd:**  
 Make a new user for the service:
 ```Bash
-useradd -m -d /home/gohh -s /bin/bash gohh
+useradd -m -d /home/goshh -s /bin/bash goshh
 
 # Lock the user, you won't be using it for anything. Besides you can just su to it.
-passwd -l gohh
+passwd -l goshh
 ```
 Create a service file:  
 `vim /etc/systemd/system/goshh-server.service`  
@@ -350,9 +350,9 @@ Description=Goshh Server
 After=network.target
 
 [Service]
-User=gohh
-WorkingDirectory=/home/gohh/
-ExecStart=/home/gohh/Goshh-Server
+User=goshh
+WorkingDirectory=/home/goshh/
+ExecStart=/home/goshh/Goshh-Server
 Restart=on-failure
 RestartSec=5s
 StandardOutput=file:/var/log/goshh-server.log
@@ -373,10 +373,10 @@ systemctl start goshh-server
 **SysV init script:**  
 Create a new user for the service:
 ```Bash
-useradd -m -d /home/gohh -s /bin/bash gohh
+useradd -m -d /home/goshh -s /bin/bash goshh
 
 # Lock the user, you won't be using it for anything. Besides you can just su to it.
-passwd -l gohh
+passwd -l goshh
 ```
 Create the init script:
 `vim /etc/init.d/goshh-server`
@@ -396,7 +396,7 @@ https://www.cyberciti.biz/tips/linux-write-sys-v-init-script-to-start-stop-servi
 ### END INIT INFO
 
 NAME="Goshh-Server"
-USER="gohh"
+USER="goshh"
 PATH="/home/goshh/"
 CMD="/home/goshh/Goshh-Server"
 LOG_FILE="/var/log/goshh-server.log"
