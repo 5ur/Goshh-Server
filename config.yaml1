@@ -1,0 +1,15 @@
+debugMode: true
+serverPort: 5150
+useDefault: true
+trustedProxies:
+  - 127.0.0.1
+cleanupInterval: "10s"
+allowLocalNetworkAccess: true
+allowedFileTypes:
+  - zip
+  - txt
+  - md
+  - jpg
+fileSavePath: "tmp/"
+staleFileTTL: "30s"
+allowedFileDownloadCount: 1

@@ -126,6 +126,24 @@ You can also just add the above to a specif user's bashrc or profile.
   allowedFileDownloadCount: 1 
   ```
 5. That's it
+Mind the follwoing:  
+If the server is started with no configuration file or a missing value/s, it will just start with the default ones hard-coded into the server binary.  
+eg:
+```Powershell
+❯ .\Goshh-Server.exe
+2023/05/20 12:03:18 Error reading config file: open config.yaml: The system cannot find the file specified.
+2023/05/20 12:03:18 Loading configuration values:
+ fileSavePath="/path/to/save/files"
+ staleFileTTL=30s
+ debugMode=false
+ allowLocalNetworkAccess=false
+ allowedFileTypes=["txt" "md" "jpg"]
+ cleanupInterval=30s
+ allowedFileDownloadCount=1
+ serverPort=5150
+ useDefault=false
+ trustedProxies=["127.0.0.1"]
+```
 
 ## Linux
 1. Clone the repository:
@@ -178,6 +196,24 @@ staleFileTTL: "30s"
 allowedFileDownloadCount: 1 
 ```
 4. That's it.
+Mind the follwoing:  
+If the server is started with no configuration file or a missing value/s, it will just start with the default ones hard-coded into the server binary.  
+eg:
+```Shell
+> ./Goshh-Server
+2023/05/20 12:01:23 Error reading config file: open config.yaml: no such file or directory
+2023/05/20 12:01:23 Loading configuration values:
+ debugMode=false
+ serverPort=5150
+ allowedFileTypes=["txt" "md" "jpg"]
+ fileSavePath="/path/to/save/files"
+ staleFileTTL=30s
+ allowedFileDownloadCount=1
+ useDefault=false
+ trustedProxies=["127.0.0.1"]
+ cleanupInterval=30s
+ allowLocalNetworkAccess=false
+```
 
 # Usage
 ## Standalone:
@@ -482,6 +518,7 @@ Invoke-RestMethod -Uri $url -Method POST -InFile $file -ContentType "multipart/f
 ```
 
 # Recommendation
+I spent a shit ton of time adding comments to the source-code. You can completely rebuild anything just by reading the comments, and you should, because this is the way that I made it for myself.  
 I urge you to have a look at the supplementary tool I made [Goshh-Client](https://github.com/5ur/Goshh-Client)  
 It's purpose it to make this a bit better, since it features options like QR code generation, off/online usage, pipeline input translation, etc..
 <img src="https://github.com/5ur/Goshh/blob/main/logos/client_logo.png" alt="Logo" width="20%" height="20%">
