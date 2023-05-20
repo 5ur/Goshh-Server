@@ -13,8 +13,6 @@
   <br />
   <a href="Placeholder"><strong>Wiki»</strong></a>
 </div>
-### Built With
-[![Go][Go]][Go-url] [![Powershell][Powershell]][Powershell-url] [![Vim][Vim]][Vim-url] [![Exchange][StackExchange]][StackExchange-url] [![Overflow][StackOverflow]][StackOverflow-url] [![Windows][Windows]][Windows-url]
 
 
 <!-- TOC -->
@@ -27,6 +25,8 @@
 </details>
 
 
+### Built With
+[![Go][Go]][Go-url] [![Powershell][Powershell]][Powershell-url] [![Vim][Vim]][Vim-url] [![Exchange][StackExchange]][StackExchange-url] [![Overflow][StackOverflow]][StackOverflow-url] [![Windows][Windows]][Windows-url]
 
 
 
