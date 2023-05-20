@@ -250,7 +250,7 @@ sc.exe create "Goshh Server" binpath= "Full_path_to_Goshh-Server_here.exe"
 Unless it's changed in the future, the service will be created with no additional prompts, and will be set to Automatic by default.  
 
 ### Linux
-**Systemd:**
+**Systemd:**  
 Make a new user for the service:
 ```Bash
 useradd -m -d /home/gohh -s /bin/bash gohh
@@ -258,8 +258,10 @@ useradd -m -d /home/gohh -s /bin/bash gohh
 # Lock the user, you won't be using it for anything. Besides you can just su to it.
 passwd -l gohh
 ```
-`vim /etc/systemd/system/goshh-server.service`
-and place the following, or something like it in the new file: [the man page](https://www.freedesktop.org/software/systemd/man/systemd.service.html)
+Create a service file:  
+`vim /etc/systemd/system/goshh-server.service`  
+and place the following, or something like it in the new service file:  
+[Have a look here for more arguments and options.](https://www.freedesktop.org/software/systemd/man/systemd.service.html)
 ```Bash
 [Unit]
 Description=Goshh Server
