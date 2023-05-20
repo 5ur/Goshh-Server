@@ -178,6 +178,113 @@ allowedFileDownloadCount: 1
 ```
 4. That's it.
 
+# Usage
+## Standalone:
+### Windows:
+```Powerhsell
+PS ❯ .\Goshh-Server.exe
+2023/05/19 14:21:05 Loading configuration values:
+ debugMode=true
+ serverPort=5150
+ allowLocalNetworkAccess=true
+ fileSavePath="tmp/"
+ staleFileTTL=30s
+ useDefault=true
+ trustedProxies=["127.0.0.1"]
+ cleanupInterval=10s
+ allowedFileTypes=["txt" "md" "jpg"]
+ allowedFileDownloadCount=1
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /                         --> main.main.func2 (4 handlers)
+[GIN-debug] POST   /message                  --> main.main.func3 (4 handlers)
+[GIN-debug] GET    /message/:id              --> main.main.func4 (4 handlers)
+[GIN-debug] POST   /upload                   --> main.main.func6 (4 handlers)
+[GIN-debug] GET    /download/:filename       --> main.main.func7 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :5150
+```
+### Linux:
+```Shell
+> ./Goshh-Server
+2023/05/20 08:21:44 Loading configuration values:
+ useDefault=true
+ trustedProxies=["127.0.0.1"]
+ cleanupInterval=10s
+ debugMode=true
+ serverPort=5150
+ fileSavePath="tmp/"
+ staleFileTTL=30s
+ allowedFileDownloadCount=1
+ allowLocalNetworkAccess=true
+ allowedFileTypes=["zip" "txt" "md" "jpg"]
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /                         --> main.main.func2 (4 handlers)
+[GIN-debug] POST   /message                  --> main.main.func3 (4 handlers)
+[GIN-debug] GET    /message/:id              --> main.main.func4 (4 handlers)
+[GIN-debug] POST   /upload                   --> main.main.func6 (4 handlers)
+[GIN-debug] GET    /download/:filename       --> main.main.func7 (4 handlers)
+[GIN-debug] Listening and serving HTTP on :5150
+```
+## Service:
+### Windows
+**.NET**
+I'm not explaining or giving a template for this, but you cab use this doc: [.NET service](https://learn.microsoft.com/en-us/dotnet/framework/windows-services/walkthrough-creating-a-windows-service-application-in-the-component-designer)
+
+**Powershell** (core is recommended, since the *-Service commandlets are more developed there)
+```Powershell
+New-Service -Name "Goshh Server" -BinaryPathName "Full_path_to_Goshh-Server_here.exe"
+```
+**Or**
+```Powershell
+sc.exe create "Goshh Server" binpath= "Full_path_to_Goshh-Server_here.exe"
+```
+Unless it's changed in the future, the service will be created with no additional prompts, and will be set to Automatic by default.  
+
+### Linux
+**Systemd:**
+Make a new user for the service:
+```Bash
+useradd -m -d /home/gohh -s /bin/bash gohh
+
+# Lock the user, you won't be using it for anything. Besides you can just su to it.
+passwd -l gohh
+```
+`vim /etc/systemd/system/goshh-server.service`
+and place the following, or something like it in the new file: [the man page](https://www.freedesktop.org/software/systemd/man/systemd.service.html)
+```Bash
+[Unit]
+Description=Goshh Server
+After=network.target
+
+[Service]
+User=gohh
+WorkingDirectory=/home/gohh/
+ExecStart=/home/gohh/Goshh-Server
+Restart=on-failure
+RestartSec=5s
+StandardOutput=file:/var/log/goshh-server.log
+StandardError=file:/var/log/goshh-server.log
+
+[Install]
+WantedBy=default.target
+```
+
+Enable and start:
+```Shell
+systemctl enable goshh-server
+systemctl start goshh-server
+```
+
+
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: logo/logo.png
 [Go]: https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white
