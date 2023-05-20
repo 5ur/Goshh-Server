@@ -483,6 +483,7 @@ Invoke-RestMethod -Uri $url -Method POST -InFile $file -ContentType "multipart/f
 # Recommendation
 I urge you to have a look at the supplementary tool I made [Goshh-Client](https://github.com/5ur/Goshh-Client)  
 It's purpose it to make this a bit better, since it features options like QR code generation, off/online usage, pipeline input translation, etc..
+<img src="https://github.com/5ur/Goshh/blob/main/logos/client_logo.png" alt="Logo" width="20%" height="20%">
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot]: logo/logo.png
