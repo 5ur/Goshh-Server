@@ -32,6 +32,11 @@ type UploadedFile struct {
 	DeleteAfter time.Time
 }
 
+type MessageRequest struct {
+	Message string `json:"message"`
+	Rune    string `json:"rune"`
+}
+
 // Maps for messages and file/s as well as the default variables (if non are supplied)
 var (
 	mu            sync.Mutex
@@ -223,30 +228,27 @@ func main() {
 		c.Writer.Write(content)
 	})
 
-	type MessageRequest struct {
-		Message string `json:"message"`
-		Rune    string `json:"rune"`
-	}
-
 	// The endpoint for posting a message
 	router.POST("/message", func(c *gin.Context) {
-		// Create a struct 'request' of type MessageRequest by parsing the JSON request body
+		// Create a struct/variable 'request' with the use of the MessageRequest type (at the top) by parsing the JSON request body to the, now 'request' struct.
 		var request MessageRequest
 		if err := c.BindJSON(&request); err != nil {
 			// Return a Expectation Failed if the JSON body couldn't be parsed
 			c.AbortWithStatus(http.StatusExpectationFailed)
 			return
 		}
-		// If the message is empty, return a teapot
+		// If the Message value/contents in the struct is empty, return a teapot
 		if request.Message == "" {
 			c.AbortWithStatus(http.StatusTeapot)
 			return
 		}
-		// Generate an ID for the message, either as a random string or based on the rune sent by the client
+		// Generate an ID for the message, either as a random string or based on the rune sent by the client (and stored in the 'request' struct's Rune string).
 		var id string
+		// If it's empty, just generate one with the generateRandomID function.
 		if request.Rune == "" {
 			id = generateRandomID()
 		} else {
+			// If it isn't empty then use the 'Rune' string, but run it by the regex in normalizeRune to mitigate any bad user input.
 			id = normalizeRune(request.Rune)
 		}
 		// Lock then unlock the messages map on individual creation/posts
